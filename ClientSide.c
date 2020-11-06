@@ -32,13 +32,16 @@ int main(int argc , char *argv[])
 
 
 	//Send some data
-	message = "Connected";
+	message = "Some message from client";
+
 	if( send(socket_desc , message , strlen(message) , 0) < 0)
 	{
 		puts("Send failed");
 		return 1;
 	}
 	puts("Data Send\n");
+
+
 	
 	//Receive a reply from the server
 	if( recv(socket_desc, server_reply , 2000 , 0) < 0)
