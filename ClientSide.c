@@ -1,15 +1,16 @@
 #include<stdio.h>
 #include<string.h>	//strlen
 #include<sys/socket.h>
-#include<unistd.h> //close
+#include<unistd.h> // close
 #include<arpa/inet.h>	//inet_addr
 
 int main(int argc , char *argv[])
 {
 	int socket_desc;
 	struct sockaddr_in server;
-	char *message,server_reply[2000];
-	
+	char *message, server_reply[2000];	
+
+
 	//Create socket
 	socket_desc = socket(AF_INET , SOCK_STREAM , 0);
 	if (socket_desc == -1)
@@ -17,7 +18,7 @@ int main(int argc , char *argv[])
 		printf("Could not create socket");
 	}
 		
-	server.sin_addr.s_addr = inet_addr("192.168.0.180");
+	server.sin_addr.s_addr = inet_addr("192.168.0.104");
 	server.sin_family = AF_INET;
 	server.sin_port = htons( 8888 );
 
@@ -27,28 +28,27 @@ int main(int argc , char *argv[])
 		puts("connect error");
 		return 1;
 	}
-	
-	puts("Connected\n");
-	
+	puts("Connected");
+
+
 	//Send some data
-	message = "connect";
+	message = "Connected";
 	if( send(socket_desc , message , strlen(message) , 0) < 0)
 	{
 		puts("Send failed");
 		return 1;
 	}
-	puts("Data Sent\n");
+	puts("Data Send\n");
 	
 	//Receive a reply from the server
 	if( recv(socket_desc, server_reply , 2000 , 0) < 0)
 	{
-		puts("Reply receive failed from server.");
+		puts("Reply receive failed.");
 	}
-	puts("Reply received from server \n");
+	puts("Reply received from server.\n");
 	puts(server_reply);
+	
 
-
-	close(socket_desc);
-
+close(socket_desc);
 	return 0;
 }
